@@ -1,0 +1,29 @@
+name: Build iOS IPA
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Make build script executable
+        run: chmod +x build_unsigned.sh
+
+      - name: Build and Package Unsigned IPA
+        run: |
+          set -euo pipefail
+          ./build_unsigned.sh
+
+      - name: Upload Finished IPA Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ImperioStore.ipa
+          path: build/ImperioStore.ipa
+          retention-days: 30

@@ -1,0 +1,18 @@
+services:
+  imperio-api:
+    type: web
+    name: ios-proxy-api
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: node server.js
+    runtime: node
+    envVars:
+      - key: NODE_VERSION
+        value: 20
+      - key: ADMIN_PASSWORD
+        value: IMPERIO_ADMIN_2024
+    autoDeploy: true
+    branches:
+      main: auto
+    directory: api-server

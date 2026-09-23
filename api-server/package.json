@@ -1,0 +1,9 @@
+{
+  "name": "ios-proxy-api",
+  "version": "1.0.0",
+  "description": "ImperioStore License Key Verification API",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  }
+}

@@ -1,0 +1,72 @@
+# Xcode
+*.xcodeproj/project.xcworkspace/
+*.xcodeproj/xcuserdata/
+*.xcworkspace/xcuserdata/
+DerivedData/
+*.ipa
+*.dSYM.zip
+*.dSYM
+build/
+*.app
+*.ipa
+*.framework
+*.xctest
+*.moved-aside
+*.xcworkspace
+!default.xcworkspace/
+
+# CocoaPods
+Pods/
+*.framework
+*.a
+
+# Carthage
+Carthage/
+
+# Swift Package Manager
+.build/
+*.xcodeproj.resolved
+*.xcodeproj/module_map.json
+*.xcodeproj/xccheckouts
+*.xcodeproj/project.xcworkspace/
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+._*
+*.localized
+
+# Generated files
+*.generated
+
+# Patch files
+*.patch
+
+# Misc
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Build
+*.build/
+*-build/
+
+# Archive
+*.xcarchive
+
+# Test
+Test/
+Tests/
+
+# Environment
+.env
+.env.local
+.secret
+
+# Script files (keep, but ignore if generated)
+upload_build_yml.ps1
+
+# Original git repo
+ios-proxy/

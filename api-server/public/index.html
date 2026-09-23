@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IOS Proxy - Gerador de Chaves</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0a0a1a;
+      color: #fff;
+      min-height: 100vh;
+    }
+    .wrapper {
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+    .logo {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    .logo h1 {
+      font-size: 32px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #3b82f6, #60a5fa, #93c5fd);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.5px;
+    }
+    .logo .tagline {
+      color: #6b7280;
+      font-size: 14px;
+      margin-top: 8px;
+    }
+    .status-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 30px;
+      font-size: 13px;
+      color: #6b7280;
+    }
+    .status-bar .dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: #ff4444;
+      transition: background 0.3s;
+    }
+    .status-bar .dot.online { background: #22c55e; }
+
+    .section-title {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #6b7280;
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+
+    /* Quick Duration Buttons */
+    .quick-btns {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+    .quick-btn {
+      padding: 12px 8px;
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      border-radius: 12px;
+      background: rgba(59, 130, 246, 0.05);
+      color: #93c5fd;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+    }
+    .quick-btn:hover {
+      background: rgba(59, 130, 246, 0.15);
+      border-color: rgba(59, 130, 246, 0.5);
+      transform: translateY(-1px);
+    }
+    .quick-btn.active {
+      background: rgba(59, 130, 246, 0.2);
+      border-color: #3b82f6;
+      color: #fff;
+      box-shadow: 0 0 12px rgba(59, 130, 246, 0.2);
+    }
+
+    /* Device Input */
+    .device-input {
+      margin-bottom: 24px;
+    }
+    .device-input label {
+      display: block;
+      font-size: 13px;
+      color: #9ca3af;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+    .device-input input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      background: rgba(255,255,255,0.03);
+      color: #fff;
+      font-size: 15px;
+      outline: none;
+      transition: border-color 0.2s;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+    .device-input input:focus {
+      border-color: #3b82f6;
+    }
+    .device-input input::placeholder {
+      color: #4b5563;
+    }
+
+    /* Generate Button */
+    .gen-btn {
+      width: 100%;
+      padding: 16px;
+      border: none;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
+      color: #fff;
+      font-size: 17px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .gen-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+    }
+    .gen-btn:active { transform: translateY(0); }
+    .gen-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .gen-btn .spinner {
+      width: 18px; height: 18px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+      display: none;
+    }
+    .gen-btn.loading .spinner { display: block; }
+    .gen-btn.loading .btn-text { display: none; }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Result Card */
+    .result-card {
+      margin-top: 24px;
+      background: rgba(59, 130, 246, 0.08);
+      border: 1px solid rgba(59, 130, 246, 0.2);
+      border-radius: 16px;
+      padding: 24px;
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+    .result-card.show { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .result-card .label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #6b7280;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+    .result-card .key {
+      font-size: 22px;
+      font-weight: 700;
+      color: #60a5fa;
+      word-break: break-all;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      line-height: 1.5;
+      margin-bottom: 16px;
+    }
+    .result-card .meta {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .result-card .meta-item {
+      font-size: 13px;
+      color: #9ca3af;
+    }
+    .result-card .meta-item span {
+      color: #d1d5db;
+      font-weight: 600;
+    }
+
+    .copy-btn {
+      margin-top: 16px;
+      width: 100%;
+      padding: 12px;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px;
+      background: rgba(255,255,255,0.05);
+      color: #d1d5db;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .copy-btn:hover {
+      background: rgba(255,255,255,0.1);
+      color: #fff;
+    }
+    .copy-btn.copied {
+      background: rgba(34, 197, 94, 0.15);
+      border-color: rgba(34, 197, 94, 0.3);
+      color: #22c55e;
+    }
+
+    /* History Section */
+    .history-section {
+      margin-top: 40px;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      padding-top: 24px;
+    }
+    .history-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 16px;
+      background: rgba(255,255,255,0.02);
+      border-radius: 10px;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+    .history-item .h-key {
+      font-family: monospace;
+      color: #60a5fa;
+      font-weight: 600;
+    }
+    .history-item .h-days {
+      color: #6b7280;
+    }
+    .history-item .h-time {
+      color: #4b5563;
+      font-size: 12px;
+    }
+    .history-empty {
+      text-align: center;
+      color: #4b5563;
+      font-size: 13px;
+      padding: 20px;
+    }
+
+    .footer {
+      margin-top: 40px;
+      text-align: center;
+      color: #374151;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <!-- Logo -->
+    <div class="logo">
+      <h1>⬡ IOS Proxy</h1>
+      <div class="tagline">Gerador de Licenças</div>
+    </div>
+
+    <!-- Status -->
+    <div class="status-bar">
+      <div class="dot" id="statusDot"></div>
+      <span id="statusText">Conectando...</span>
+    </div>
+
+    <!-- Duration Selection -->
+    <div class="section-title">Validade da Chave</div>
+    <div class="quick-btns">
+      <div class="quick-btn" data-days="1">1 dia</div>
+      <div class="quick-btn" data-days="7">7 dias</div>
+      <div class="quick-btn active" data-days="30">30 dias</div>
+      <div class="quick-btn" data-days="90">90 dias</div>
+      <div class="quick-btn" data-days="180">180 dias</div>
+      <div class="quick-btn" data-days="365">1 ano</div>
+    </div>
+
+    <!-- Device ID -->
+    <div class="device-input">
+      <label>Device ID <span style="color:#4b5563">(opcional)</span></label>
+      <input type="text" id="deviceId" placeholder="Deixe em branco para qualquer device">
+    </div>
+
+    <!-- Generate Button -->
+    <button class="gen-btn" id="genBtn" onclick="generateKey()">
+      <span class="spinner"></span>
+      <span class="btn-text">⚡ Gerar Chave</span>
+    </button>
+
+    <!-- Result -->
+    <div class="result-card" id="resultCard">
+      <div class="label">🔑 Chave Gerada</div>
+      <div class="key" id="keyDisplay"></div>
+      <div class="meta">
+        <div class="meta-item">⏰ <span id="keyDays"></span> dias</div>
+        <div class="meta-item">📅 Expira: <span id="keyExpire"></span></div>
+      </div>
+      <button class="copy-btn" id="copyBtn" onclick="copyKey()">📋 Copiar Chave</button>
+    </div>
+
+    <!-- History -->
+    <div class="history-section">
+      <div class="section-title">Histórico</div>
+      <div id="historyList">
+        <div class="history-empty">Nenhuma chave gerada ainda</div>
+      </div>
+    </div>
+
+    <div class="footer">IOS Proxy License API</div>
+  </div>
+
+  <script>
+    const API = window.location.origin;
+let selectedDays = 30;
+    const history = JSON.parse(localStorage.getItem('imperio_history') || '[]');
+
+    // Duration buttons
+    document.querySelectorAll('.quick-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.quick-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        selectedDays = parseInt(btn.dataset.days);
+      });
+    });
+
+    // Check server status
+    fetch(`${API}/api/status`)
+      .then(r => r.json())
+      .then(d => {
+        document.getElementById('statusDot').classList.add('online');
+        document.getElementById('statusText').textContent = 'Servidor Online';
+      })
+      .catch(() => {
+        document.getElementById('statusText').textContent = 'Servidor Offline';
+      });
+
+    // Load history
+    renderHistory();
+
+    async function generateKey() {
+      const btn = document.getElementById('genBtn');
+      btn.classList.add('loading');
+      btn.disabled = true;
+
+      try {
+        const deviceId = document.getElementById('deviceId').value || 'any';
+        const res = await fetch(`${API}/api/generate-key`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ days: selectedDays, device_id: deviceId })
+        });
+        const data = await res.json();
+
+        if (data.key) {
+          document.getElementById('keyDisplay').textContent = data.key;
+          document.getElementById('keyDays').textContent = data.days_remaining;
+          document.getElementById('keyExpire').textContent = new Date(data.expires_at).toLocaleDateString('pt-BR');
+          document.getElementById('resultCard').classList.add('show');
+
+          // Add to history
+          history.unshift({
+            key: data.key,
+            days: selectedDays,
+            time: new Date().toLocaleString('pt-BR')
+          });
+          if (history.length > 10) history.pop();
+          localStorage.setItem('imperio_history', JSON.stringify(history));
+          renderHistory();
+        } else {
+          alert('Erro: ' + data.message);
+        }
+      } catch (e) {
+        alert('Erro ao conectar com o servidor');
+      } finally {
+        btn.classList.remove('loading');
+        btn.disabled = false;
+      }
+    }
+
+    function copyKey() {
+      const key = document.getElementById('keyDisplay').textContent;
+      navigator.clipboard.writeText(key).then(() => {
+        const btn = document.getElementById('copyBtn');
+        btn.textContent = '✅ Copiado!';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.textContent = '📋 Copiar Chave';
+          btn.classList.remove('copied');
+        }, 2000);
+      });
+    }
+
+    function renderHistory() {
+      const list = document.getElementById('historyList');
+      if (history.length === 0) {
+        list.innerHTML = '<div class="history-empty">Nenhuma chave gerada ainda</div>';
+        return;
+      }
+      list.innerHTML = history.map(h => `
+        <div class="history-item">
+          <div>
+            <div class="h-key">${h.key}</div>
+            <div class="h-time">${h.time}</div>
+          </div>
+          <div class="h-days">${h.dias || h.days} dias</div>
+        </div>
+      `).join('');
+    }
+  </script>
+</body>
+</html>
