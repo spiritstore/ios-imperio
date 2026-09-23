@@ -146,7 +146,6 @@ const server = http.createServer((req, res) => {
     });
 
   } else if (path === '/api/verify' && req.method === 'POST') {
-    if (!checkAuth()) { j(401, { message: 'Login required' }); return; }
     body(d => {
       try {
         const { key, device_id } = JSON.parse(d);
