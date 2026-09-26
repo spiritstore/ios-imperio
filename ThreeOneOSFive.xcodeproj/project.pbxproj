@@ -202,8 +202,8 @@
 		3105Q104 /* OGIOS File (10).3105 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ThreeOneOSFive/Patches/OGIOS File (10).3105"; sourceTree = "<group>"; };
 		3105Q105 /* OGIOS File (12).3105 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ThreeOneOSFive/Patches/OGIOS File (12).3105"; sourceTree = "<group>"; };
 		3105Q106 /* OGIOS File (14).3105 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ThreeOneOSFive/Patches/OGIOS File (14).3105"; sourceTree = "<group>"; };
-		3105SH01 /* shader */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "ThreeOneOSFive/shader"; sourceTree = "<group>"; };
-		3105RS01 /* res */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "ThreeOneOSFive/res"; sourceTree = "<group>"; };
+		3105SH01 /* shader */ = {isa = PBXFileReference; lastKnownFileType = folder; path = shader; sourceTree = "<group>"; };
+		3105RS01 /* res */ = {isa = PBXFileReference; lastKnownFileType = folder; path = res; sourceTree = "<group>"; };
 
 /* End PBXFileReference section */
 
