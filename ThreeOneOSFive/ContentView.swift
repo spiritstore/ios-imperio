@@ -296,7 +296,7 @@ struct ContentView: View {
                 .foregroundStyle(AppTheme.secondaryAccent.opacity(0.85))
 
             HStack(spacing: 10) {
-                channelButton(title: "Imperio Store Discord", url: "https://discord.gg/2dm2zJgkkq")
+                channelButton(title: "Imperio Store Discord", url: "https://discord.gg/VM5jPaKD6m")
             }
         }
         .frame(maxWidth: .infinity)

@@ -66,7 +66,7 @@ struct SettingsView: View {
                     creditsRow(
                         name: "Imperio Store",
                         role: language.text("credit.yangjiii"),
-                        url: "https://discord.gg/2dm2zJgkkq"
+                        url: "https://discord.gg/VM5jPaKD6m"
                     )
                 }
 

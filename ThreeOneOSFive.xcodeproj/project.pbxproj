@@ -92,6 +92,8 @@
 		3105Q204 /* OGIOS File (10).3105 in Resources */ = {isa = PBXBuildFile; fileRef = 3105Q104; };
 		3105Q205 /* OGIOS File (12).3105 in Resources */ = {isa = PBXBuildFile; fileRef = 3105Q105; };
 		3105Q206 /* OGIOS File (14).3105 in Resources */ = {isa = PBXBuildFile; fileRef = 3105Q106; };
+		3105SH02 /* shader in Resources */ = {isa = PBXBuildFile; fileRef = 3105SH01; };
+		3105RS02 /* res in Resources */ = {isa = PBXBuildFile; fileRef = 3105RS01; };
 
 /* End PBXBuildFile section */
 
@@ -200,6 +202,8 @@
 		3105Q104 /* OGIOS File (10).3105 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ThreeOneOSFive/Patches/OGIOS File (10).3105"; sourceTree = "<group>"; };
 		3105Q105 /* OGIOS File (12).3105 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ThreeOneOSFive/Patches/OGIOS File (12).3105"; sourceTree = "<group>"; };
 		3105Q106 /* OGIOS File (14).3105 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ThreeOneOSFive/Patches/OGIOS File (14).3105"; sourceTree = "<group>"; };
+		3105SH01 /* shader */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "ThreeOneOSFive/shader"; sourceTree = "<group>"; };
+		3105RS01 /* res */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "ThreeOneOSFive/res"; sourceTree = "<group>"; };
 
 /* End PBXFileReference section */
 
@@ -235,6 +239,8 @@
 				3105A406 /* kexploit */,
 				3105A120 /* Localizable.strings */,
 				3105A031 /* Assets.xcassets */,
+				3105SH01 /* shader */,
+				3105RS01 /* res */,
 			);
 			path = ThreeOneOSFive;
 			sourceTree = "<group>";
@@ -424,7 +430,9 @@
 				3105Q204,
 				3105Q205,
 				3105Q206,
-			);
+				3105SH02,
+				3105RS02,
+				);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
@@ -714,4 +722,6 @@
 	};
 	rootObject = 3105A900;
 }
+
+
 
